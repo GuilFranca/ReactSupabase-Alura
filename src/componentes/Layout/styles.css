@@ -1,0 +1,10 @@
+.container {
+  width: 62vw;
+  margin: 3.5em auto;
+  display: flex;
+  gap: 16px;
+}
+
+.conteudo-principal {
+  flex-grow: 2;
+}
