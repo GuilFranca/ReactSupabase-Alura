@@ -1,27 +1,34 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Card from "../../componentes/Card";
 import "./styles.css";
 import { buscarPostagens } from "../../supabase/requisicoes";
+import { Projeto } from "../../tipagem/Projeto";
 
 export default function PaginaInicial() {
 
+  // Projeto[] -> Tipagem de lista de projeto
+  const [postagens, setPostagens] = useState<Projeto[]>([]);
+
   useEffect(() => {
-   buscarPostagens().then((dados) => {
-    console.log(dados);
-   }) 
+    buscarPostagens().then((dados) => {
+      // console.log(dados);
+      setPostagens(dados);
+    })
   }, []);
 
   return (
     <div>
       <ul className="lista-cards">
-        <li>
-          <Card
-            id={"123"}
-            imagemUrl={"https://picsum.photos/200/300"}
-            titulo={"Título do Card"}
-            resumo={"Resumo do Card"}
-          />
-        </li>
+        {postagens.map((postagem) => (
+          <li key={postagem.id}>
+            <Card
+              id={postagem.id}
+              imagemUrl={postagem.imagem}
+              titulo={postagem.nome}
+              resumo={postagem.descricao}
+            />
+          </li>
+        ))}
       </ul>
     </div>
   );
