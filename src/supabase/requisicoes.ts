@@ -24,12 +24,30 @@ export function criarPostagem(postagem: Projeto) {
     return supabase
         .from("Publicação")
         .insert([postagem]) // Envia o objeto postagem para o banco de dados
-        .then(({data, error}) => {
+        .then(({ data, error }) => {
             if (error) {
-                console.log("Erro ao criar uma nova postagem ❌", error.message);
+                console.error("Erro ao criar uma nova postagem ❌", error.message);
                 return null; // Nada será retornado além do erro.
             }
 
             return data;
         });
+}
+
+export function enviarImagem(arquivo: File) {
+    const nomeUnico = `${Date.now()}-${arquivo.name}`;
+    return supabase.storage // O bucket ficar dentro do storage
+        .from("imagens")
+        .upload(nomeUnico, arquivo)
+        .then(({ data, error }) => {
+            if (error || !data) {
+                console.error("Erro ao enviar a imagem ❌", error.message);
+                return null;
+            }
+
+            const { publicUrl } = supabase.storage.from("imagens").getPublicUrl(nomeUnico).data;
+
+            return publicUrl;
+        }
+        );
 }
