@@ -1,4 +1,4 @@
-import { Projeto } from "../tipagem/Projeto";
+import { ProjetoAntesDoSupabase } from "../tipagem/ProjetoAntesDoSupabase";
 import { supabase } from "./supabaseClient";
 
 export function buscarPostagens() {
@@ -19,19 +19,34 @@ export function buscarPostagens() {
 }
 
 // Tipamos o que vamos enviar com a tipagem Projeto para padronizar o que pode ser enviado
-export function criarPostagem(postagem: Projeto) {
-    // insert -> método de inserção de publicação no supabase
-    return supabase
-        .from("Publicação")
-        .insert([postagem]) // Envia o objeto postagem para o banco de dados
-        .then(({ data, error }) => {
-            if (error) {
-                console.error("Erro ao criar uma nova postagem ❌", error.message);
-                return null; // Nada será retornado além do erro.
+export function criarPostagem(postagem: ProjetoAntesDoSupabase) {
+    if (postagem.imagem) {
+        return enviarImagem(postagem.imagem).then((urlImagem) => {
+            if (!urlImagem) {
+                console.error("Não foi possível obter a URL da imagem ❌");
+                return null;
             }
 
-            return data;
+            const postagemComImagem = {
+                ...postagem, // Pega todos os atributos da postagem e subtitui a imagem que antes era um arquivo para utilizar a URL.
+                imagem: urlImagem
+            }
+
+            // Agora podemos fazer a requisição para o supabase
+            // insert -> método de inserção de publicação no supabase
+            return supabase
+                .from("Publicação")
+                .insert([postagemComImagem]) // Envia o objeto postagem para o banco de dados -> Trocamos postagem por postagemComImagem
+                .then(({ data, error }) => {
+                    if (error) {
+                        console.error("Erro ao criar uma nova postagem ❌", error.message);
+                        return null; // Nada será retornado além do erro.
+                    }
+
+                    return data;
+                });
         });
+    }
 }
 
 export function enviarImagem(arquivo: File) {
