@@ -1,7 +1,16 @@
+import { useEffect } from "react";
 import Card from "../../componentes/Card";
 import "./styles.css";
+import { buscarPostagens } from "../../supabase/requisicoes";
 
 export default function PaginaInicial() {
+
+  useEffect(() => {
+   buscarPostagens().then((dados) => {
+    console.log(dados);
+   }) 
+  }, []);
+
   return (
     <div>
       <ul className="lista-cards">
