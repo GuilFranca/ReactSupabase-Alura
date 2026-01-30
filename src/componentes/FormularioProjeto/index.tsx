@@ -1,16 +1,17 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import "./styles.css";
 import { Projeto } from "../../tipagem/Projeto";
+import { ProjetoAntesDoSupabase } from "../../tipagem/ProjetoAntesDoSupabase";
 
 type FormularioProjetoProps = {
   projetoInicial?: Projeto;
-  onSubmit: (projeto: Projeto) => void;
+  onSubmit: (projeto: ProjetoAntesDoSupabase) => void;
 };
 
 export default function FormularioProjeto({ projetoInicial, onSubmit }: FormularioProjetoProps) {
   const [nome, setNome] = useState(projetoInicial?.nome || "");
   const [descricao, setDescricao] = useState(projetoInicial?.descricao || "");
-  const [imagem, setImagem] = useState<File | null>(projetoInicial?.imagem || null);
+  const [imagem, setImagem] = useState<File | null>(null);
   const [tags, setTags] = useState<string[]>(projetoInicial?.tags || []);
   const [novaTag, setNovaTag] = useState("");
 

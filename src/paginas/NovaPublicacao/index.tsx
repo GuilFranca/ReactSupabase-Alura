@@ -1,9 +1,10 @@
 import FormularioProjeto from "../../componentes/FormularioProjeto";
-import { Projeto } from "../../tipagem/Projeto";
+import { criarPostagem } from "../../supabase/requisicoes";
+import { ProjetoAntesDoSupabase } from "../../tipagem/ProjetoAntesDoSupabase";
 
 export default function NovaPublicacao() {
-  function criarProjeto(projeto: Projeto) {
-    console.log("Projeto criado:", projeto);
+  function criarProjeto(projeto: ProjetoAntesDoSupabase) {
+    criarPostagem(projeto)
     // Aqui você pode chamar uma API ou salvar no banco
   }
 
