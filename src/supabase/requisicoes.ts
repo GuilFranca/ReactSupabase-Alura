@@ -66,3 +66,21 @@ export function enviarImagem(arquivo: File) {
         }
         );
 }
+
+export function buscarPostagemPorId(id: string) {
+    // eq("nome-coluna", "valor-buscado")
+    // .single() -> retornar somente um objeto com as informações dessa linha, ao invés de um array
+    return supabase
+        .from("Publicação")
+        .select("*")
+        .eq("id", id)
+        .single()
+        .then(({ data, error }) => {
+            if (error) {
+                console.error("Erro ao buscar postagem pelo id ❌", error.message);
+                return null
+            }
+
+            return data;
+        });
+}

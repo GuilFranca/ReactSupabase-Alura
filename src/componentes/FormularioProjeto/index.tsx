@@ -14,6 +14,7 @@ export default function FormularioProjeto({ projetoInicial, onSubmit }: Formular
   const [imagem, setImagem] = useState<File | null>(null);
   const [tags, setTags] = useState<string[]>(projetoInicial?.tags || []);
   const [novaTag, setNovaTag] = useState("");
+  const imagemProjetoInicial = projetoInicial?.imagem || null; // variável que armazena o valor da imagem existindo ela ou não
 
   function handleImagemChange(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files[0]) {
@@ -42,8 +43,8 @@ export default function FormularioProjeto({ projetoInicial, onSubmit }: Formular
 
      <div>
         <div >
-        {imagem ? (
-          <img src={URL.createObjectURL(imagem)} alt="Preview" className="form-imagem"/>
+        {imagemProjetoInicial ? (
+          <img src={imagemProjetoInicial} alt="Preview" className="form-imagem"/> // Atribuimos o valor da imagem como sendo
         ) : 
           (
           <img src="https://picsum.photos/200/300" alt="Imagem padrão" className="form-imagem"/>
