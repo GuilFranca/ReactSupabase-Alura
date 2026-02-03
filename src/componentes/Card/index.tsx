@@ -6,9 +6,10 @@ type CardProps = {
   imagemUrl: string;
   titulo: string;
   resumo: string;
+  deletar: (id: string) => void; // Insere uma função na tipagem que não possui retorno
 };
 
-export default function Card({ id, imagemUrl, titulo, resumo }: CardProps) {
+export default function Card({ id, imagemUrl, titulo, resumo, deletar }: CardProps) {
   return (
     <article className="card" id={id}>
       <div className="card__imagem">
@@ -24,7 +25,9 @@ export default function Card({ id, imagemUrl, titulo, resumo }: CardProps) {
           <Link to={`/editar-publicacao/${id}`} className="botao__editar">
             Editar
           </Link>
-          <button className="botao__deletar">Apagar</button>
+          <button className="botao__deletar" onClick={() => deletar(id)}>
+            Apagar
+          </button>
         </div>
       </div>
     </article>

@@ -100,3 +100,18 @@ export function atualizarPostagem(id: string, novosDados: Projeto) {
             return data;
         })
 }
+
+export function deletarPostagem(id: string) {
+    return supabase
+        .from("Publicação")
+        .delete() // Comando responsável por deletar 
+        .eq("id", id) // Comando responsável por verificar igualdade
+        .then(({ data, error }) => {
+            if (error) {
+                console.error("Erro ao deletar postagem");
+                return null;
+            }
+
+            return data;
+        })
+}

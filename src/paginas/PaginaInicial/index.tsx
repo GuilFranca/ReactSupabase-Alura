@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Card from "../../componentes/Card";
 import "./styles.css";
-import { buscarPostagens } from "../../supabase/requisicoes";
+import { buscarPostagens, deletarPostagem } from "../../supabase/requisicoes";
 import { Projeto } from "../../tipagem/Projeto";
 
 export default function PaginaInicial() {
@@ -16,6 +16,13 @@ export default function PaginaInicial() {
     })
   }, []);
 
+  function deletar(id: string) {
+    deletarPostagem(id).then(() => {
+      setPostagens((postagensAnteriores) => 
+        postagensAnteriores.filter((postagem) => postagem.id !== id));
+    });
+  }
+
   return (
     <div>
       <ul className="lista-cards">
@@ -26,6 +33,7 @@ export default function PaginaInicial() {
               imagemUrl={postagem.imagem}
               titulo={postagem.nome}
               resumo={postagem.descricao}
+              deletar={deletar}
             />
           </li>
         ))}
