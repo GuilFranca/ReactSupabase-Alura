@@ -14,7 +14,7 @@ export default function EditarPublicacao() {
         setProjeto(projetoBuscado);
       })
     }
-  }, []);
+  }, [id]);
 
   function atualizarProjeto(projeto: Projeto) {
     console.log("Projeto atualizado:", projeto);
